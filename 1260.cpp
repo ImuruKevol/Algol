@@ -28,6 +28,7 @@ public:
     v = _v;
     plag = false;
   }
+  Node(){}
   
 };
 
@@ -50,7 +51,10 @@ int main(){
     node.at(v1-1).push(v2);
   }
 
-  dfs(&node, V);
+  // dfs(&node, V);
+  // cout<<endl;
+  bfs(&node, V);
+  cout<<endl;
 
   return 0;
 }
@@ -66,8 +70,22 @@ void dfs(vector<Node> *vec, int v){
   }
 }
 
-void bfs(Node node, int v){
+void bfs(vector<Node> *vec, int v){
+  if(!(*vec).at(v-1).plag) cout<<v<<" ";
+  (*vec).at(v-1).plag = true;
+  Node q = Node();
 
+  while(!(*vec).at(v-1).child.empty()){
+    int next = (*vec).at(v-1).pop();
+    if(!(*vec).at(next-1).plag){
+      q.push(next);
+      cout<<next<<" ";
+      (*vec).at(next-1).plag = true;
+    }
+  }
+  while(!q.child.empty()){
+    bfs(vec, q.pop());
+  }
 }
 
 /**
